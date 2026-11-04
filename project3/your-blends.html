@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>YNQ - Your Blends</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/styles.css">
+    </head>
+    <body>
+        <header>
+            <div class="logo">YNQ</div>
+            <nav aria-label="Main navigation">
+                <a href="home.html">Home</a>
+                <a href="list.html">Products</a>
+                <a href="create-ingredients.html">Create</a>
+                <a href="your-blends.html" aria-current="page">Your Blends</a>
+            </nav>
+        </header>
+
+        <main class="your-blends-page">
+            <div class="your-blends-intro">
+                <div>
+                    <p class="eyebrow">YOUR COLLECTION</p>
+                    <h1 class="page-title">Your Blends</h1>
+                    <p class="your-blends-description">Your go-to formulas and blends you’ve made, all in one place.</p>
+                </div>
+                <a class="your-blends-create" href="create-ingredients.html">Create a blend</a>
+            </div>
+
+            <section class="blend-section" aria-labelledby="created-blends-title">
+                <div class="blend-section-heading">
+                    <div>
+                        <h2 id="created-blends-title">Created blends</h2>
+                        <p>Your custom formulas.</p>
+                    </div>
+                </div>
+                <div class="blend-grid your-blends-grid">
+                    <article class="card">
+                        <a href="details.html?blend=morning-momentum">
+                            <img class="card-img" src="img/blend-cover-5.jpg" alt="Colorful cover art for Morning Momentum">
+                            <p class="card-title">Morning Momentum</p>
+                        </a>
+                        <p class="blend-card-meta">by me</p>
+                    </article>
+                    <article class="card">
+                        <a href="details.html?blend=berry-lift">
+                            <img class="card-img" src="img/blend-cover-6.jpg" alt="Colorful cover art for Berry Lift">
+                            <p class="card-title">Berry Betaine</p>
+                        </a>
+                        <p class="blend-card-meta">by me</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="blend-section" aria-labelledby="saved-blends-title">
+                <div class="blend-section-heading">
+                    <div>
+                        <h2 id="saved-blends-title">Saved blends</h2>
+                        <p>Blends you’ve bookmarked for later.</p>
+                    </div>
+                </div>
+                <div class="blend-grid your-blends-grid">
+                    <article class="card">
+                        <a href="details.html?blend=funky-fuel">
+                            <img class="card-img" src="img/blend-cover-1.jpg" alt="Colorful cover art for Funky Fuel">
+                            <p class="card-title">Funky Fuel</p>
+                        </a>
+                        <p class="blend-card-meta">by funkopop_fighter</p>
+                    </article>
+                    <article class="card">
+                        <a href="details.html?blend=tropical-trap-tuesday">
+                            <img class="card-img" src="img/blend-cover-2.jpg" alt="Colorful cover art for Tropical Trap Tuesday">
+                            <p class="card-title">Tropical Trap Tuesday</p>
+                        </a>
+                        <p class="blend-card-meta">by leanbeefpatty</p>
+                    </article>
+                    <article class="card">
+                        <a href="details.html?blend=diva-dominator">
+                            <img class="card-img" src="img/blend-cover-4.jpg" alt="Colorful cover art for Diva Dominator">
+                            <p class="card-title">Diva Dominator</p>
+                        </a>
+                        <p class="blend-card-meta">by aquena</p>
+                    </article>
+                </div>
+            </section>
+
+        </main>
+
+        <footer>
+            <div class="socials">
+                <a href="#" aria-label="LinkedIn">in</a>
+                <a href="#" aria-label="Facebook">f</a>
+                <a href="#" aria-label="Twitter">x</a>
+            </div>
+            <div>A product of YNQ</div>
+            <div>© 2026 YNQ Pre-Workout. All rights reserved.</div>
+        </footer>
+
+        <script src="js/jquery-4.0.0.min.js"></script>
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
