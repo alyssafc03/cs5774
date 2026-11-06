@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>YNQ - Create a Blend</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/styles.css">
+    </head>
+    <body>
+        
+        <header>
+            <div class="logo">YNQ</div>
+            <nav>
+                <a href="home.html">Home</a>
+                <a href="list.html">Products</a>
+                <a href="create-ingredients.html" aria-current="page">Create</a>
+                <a href="account.html">Account</a>
+            </nav>
+        </header>
+
+        <main>
+            <div id="status-bar" aria-label="Create a blend progress">
+                <a href="create-ingredients.html" aria-current="page">1. Ingredients </a>
+                <a href="create-products.html">/ 2. Products </a>
+                <a href="create-review.html">/ 3. Review </a>
+            </div>
+
+            <div class="create-blend-title">
+                <h1>Select base ingredients</h1>
+                <p>Pick what goes in your blend. You'll choose products next.</p>
+            </div>
+
+            <div class="create-layout">
+                <div class="ingredient-grid">
+                    <div class="card">
+                        <input class="card-toggle" type="checkbox" id="ing-creatine" name="ingredients" value="Creatine" aria-labelledby="ing-creatine-name">
+                        <h3 id="ing-creatine-name">Creatine</h3>
+                        <p>Strength and power</p>
+                    </div>
+                    <div class="card">
+                        <input class="card-toggle" type="checkbox" id="ing-caffeine" name="ingredients" value="Caffeine" aria-labelledby="ing-caffeine-name">
+                        <h3 id="ing-caffeine-name">Caffeine</h3>
+                        <p>Energy and mental focus</p>
+                    </div>
+                    <div class="card">
+                        <input class="card-toggle" type="checkbox" id="ing-beta-alanine" name="ingredients" value="Beta-Alanine" aria-labelledby="ing-beta-alanine-name">
+                        <h3 id="ing-beta-alanine-name">Beta-Alanine</h3>
+                        <p>Endurance</p>
+                    </div>
+                    <div class="card">
+                        <input class="card-toggle" type="checkbox" id="ing-l-citrulline" name="ingredients" value="L-Citrulline" aria-labelledby="ing-l-citrulline-name">
+                        <h3 id="ing-l-citrulline-name">L-Citrulline</h3>
+                        <p>Pump and endurance</p>
+                    </div>
+                    <div class="card">
+                        <input class="card-toggle" type="checkbox" id="ing-l-theanine" name="ingredients" value="L-Theanine" aria-labelledby="ing-l-theanine-name">
+                        <h3 id="ing-l-theanine-name">L-Theanine</h3>
+                        <p>Focused energy</p>
+                    </div>
+                    <div class="card">
+                        <input class="card-toggle" type="checkbox" id="ing-taurine" name="ingredients" value="Taurine" aria-labelledby="ing-taurine-name">
+                        <h3 id="ing-taurine-name">Taurine</h3>
+                        <p>Hydration and muscle function</p>
+                    </div>
+                </div>
+
+                <aside class="summary" aria-label="Your blend so far">
+                    <h2>Your blend</h2>
+                    <ul class="selected-ingredients" aria-live="polite">
+                        <li class="empty-note">No ingredients selected</li>
+                    </ul>
+                    <p id="caffeine-row" hidden><span>Caffeine</span> <span>200 mg</span></p>
+                    <p><span>Products chosen</span> <span id="products-chosen">0 of 0</span></p>
+                    <p><span>Total price</span> <span id="total-price">$0.00</span></p>
+                    <a class="submit is-disabled" href="create-products.html">Continue</a>
+                </aside>
+            </div> <!-- close create-layout -->
+            
+        </main>
+        
+        <footer>
+            <div class="socials">
+                <a href="#" aria-label="LinkedIn">in</a>
+                <a href="#" aria-label="Facebook">f</a>
+                <a href="#" aria-label="Twitter">x</a>
+            </div>
+
+            <div>
+                A product of YNQ
+            </div>
+
+            <div>
+                © 2026 YNQ Pre-Workout. All rights reserved.
+            </div>
+        </footer>
+
+        <script src="js/jquery-4.0.0.min.js"></script>
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
