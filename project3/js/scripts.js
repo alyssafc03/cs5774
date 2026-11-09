@@ -296,6 +296,69 @@ $(function () {
         });
     }
 
+    function renderProductTabs(selectedIngredients) {
+        var $tabList = $('.product-tabs');
+        var $tabs = $tabList.find('[role="tab"]');
+        var $panels = $('.product-panel');
+        var $panelContainer = $panels.parent();
+
+        $tabList.empty();
+        $panels.prop('hidden', true);
+
+        $.each(selectedIngredients, function(index, ingredient) {
+            var $tab = $tabs.filter(function() {
+                return $(this).text().trim() === ingredient;
+            }).first();
+            var isFirstTab = index === 0;
+            var panelId;
+
+            if ($tab.length) {
+                panelId = $tab.attr('aria-controls');
+                $tab.attr({
+                    'aria-selected': isFirstTab ? 'true' : 'false',
+                    tabindex: isFirstTab ? '0' : '-1'
+                })
+                    .toggleClass('tab-active', isFirstTab)
+                    .toggleClass('tab', !isFirstTab);
+                $('#' + panelId).prop('hidden', !isFirstTab);
+            } else {
+                panelId = 'panel-no-products-' + index;
+                $tab = $('<button>')
+                    .attr({
+                        id: 'tab-no-products-' + index,
+                        type: 'button',
+                        role: 'tab',
+                        'aria-selected': isFirstTab ? 'true' : 'false',
+                        'aria-controls': panelId,
+                        tabindex: isFirstTab ? '0' : '-1'
+                    })
+                    .addClass(isFirstTab ? 'tab-active' : 'tab')
+                    .text(ingredient);
+
+                var $panel = $('<section>')
+                    .attr({
+                        id: panelId,
+                        role: 'tabpanel',
+                        'aria-labelledby': 'tab-no-products-' + index,
+                        tabindex: '0'
+                    })
+                    .addClass('product-panel')
+                    .append(
+                        $('<h2>').addClass('visually-hidden')
+                            .text(ingredient + ' products'),
+                        $('<p>').text(
+                            'No product listings are available for this ingredient yet.'
+                        )
+                    )
+                    .prop('hidden', !isFirstTab);
+
+                $panelContainer.append($panel);
+            }
+
+            $tabList.append($tab);
+        });
+    }
+
     // Update the product summary using the ingredients selected on
     // the previous page and the products selected on this page.
     function updateProductSummary() {
@@ -321,11 +384,13 @@ $(function () {
                         $('<li>').text(ingredient + ': ' + product.brand)
                     );
                 } else {
-                    var hasProductTab = $('.product-tabs [role="tab"]').filter(function() {
+                    var $tab = $('.product-tabs [role="tab"]').filter(function() {
                         return $(this).text().trim() === ingredient;
-                    }).length > 0;
+                    }).first();
+                    var hasProductOptions = $tab.length > 0 &&
+                        $('#' + $tab.attr('aria-controls')).find('.product-grid').length > 0;
                     $productList.append(
-                        $('<li>').text(ingredient + (hasProductTab
+                        $('<li>').text(ingredient + (hasProductOptions
                             ? ': No product selected'
                             : ': No product options available yet'))
                     );
@@ -403,18 +468,11 @@ $(function () {
             return productIngredients.indexOf(ingredient) === -1;
         });
 
+        renderProductTabs(savedIngredients);
         updateAvailableProducts(savedIngredients);
         updateProductSummary();
         $('#caffeine-row').toggle(savedIngredients.indexOf('Caffeine') !== -1);
         $('#products-unavailable-note').prop('hidden', !hasUnavailableProducts);
-
-        var $firstSelectedTab = $('.product-tabs [role="tab"]').filter(function() {
-            return savedIngredients.indexOf($(this).text().trim()) !== -1;
-        }).first();
-
-        if ($firstSelectedTab.length) {
-            $firstSelectedTab.trigger('click');
-        }
 
         // No ingredients means there is nothing to choose products for.
         if (savedIngredients.length === 0) {
