@@ -73,6 +73,16 @@ $(function () {
             title: 'Spiritual Spinal Sunday', author: 'zesty', cover: 'img/blend-cover-6.jpg',
             ingredients: 'Taurine, L-citrulline, L-theanine',
             calories: '10', caffeine: '0 mg', carbs: '2 g', protein: '0 g'
+        },
+        'morning-momentum': {
+            title: 'Morning Momentum', author: 'you', cover: 'img/blend-cover-5.jpg',
+            ingredients: 'Caffeine, creatine, L-citrulline',
+            calories: '10', caffeine: '200 mg', carbs: '2 g', protein: '0 g'
+        },
+        'berry-betaine': {
+            title: 'Berry Betaine', author: 'you', cover: 'img/blend-cover-6.jpg',
+            ingredients: 'Caffeine, beta-alanine, taurine',
+            calories: '10', caffeine: '180 mg', carbs: '2 g', protein: '0 g'
         }
     };
 
@@ -225,6 +235,25 @@ $(function () {
         }
     });
 
+    if ($ingredientGrid.length) {
+        var savedIngredients = getSelectedIngredients();
+
+        $ingredientGrid.find('.card-toggle').each(function() {
+            var $checkbox = $(this);
+            var isSelected = savedIngredients.indexOf($checkbox.val()) !== -1;
+
+            $checkbox.prop('checked', isSelected)
+                .closest('.card').toggleClass('is-selected', isSelected);
+        });
+
+        updateIngredientSummary(savedIngredients);
+        $('#products-chosen').text('0 of ' + savedIngredients.length);
+        $('#caffeine-row').toggle(savedIngredients.indexOf('Caffeine') !== -1);
+        $summary.find('a.submit')
+            .toggleClass('is-disabled', savedIngredients.length === 0)
+            .attr('aria-disabled', savedIngredients.length === 0 ? 'true' : 'false');
+    }
+
     // Stop the Continue button from working when it is disabled.
     $summary.on('click', 'a.submit.is-disabled', function(event) {
         event.preventDefault();
@@ -234,6 +263,43 @@ $(function () {
     // <><><> product selection on the Products page <><><>
     // Stores one selected product for each ingredient.
     var selectedProducts = {};
+
+    $('.product-tabs').on('click', '[role="tab"]', function() {
+        var $tab = $(this);
+        var panelId = $tab.attr('aria-controls');
+
+        $('.product-tabs [role="tab"]')
+            .attr('aria-selected', 'false')
+            .attr('tabindex', '-1')
+            .removeClass('tab-active')
+            .addClass('tab');
+        $tab.attr('aria-selected', 'true')
+            .attr('tabindex', '0')
+            .removeClass('tab')
+            .addClass('tab-active');
+
+        $('.product-panel').prop('hidden', true);
+        $('#' + panelId).prop('hidden', false);
+    }).on('keydown', '[role="tab"]', function(event) {
+        var $tabs = $('.product-tabs [role="tab"]');
+        var currentIndex = $tabs.index(this);
+        var nextIndex = currentIndex;
+
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+            nextIndex = (currentIndex + 1) % $tabs.length;
+        } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+            nextIndex = (currentIndex - 1 + $tabs.length) % $tabs.length;
+        } else if (event.key === 'Home') {
+            nextIndex = 0;
+        } else if (event.key === 'End') {
+            nextIndex = $tabs.length - 1;
+        } else {
+            return;
+        }
+
+        event.preventDefault();
+        $tabs.eq(nextIndex).trigger('focus').trigger('click');
+    });
 
     // Update the product summary using the ingredients selected on
     // the previous page and the products selected on this page.
@@ -340,6 +406,25 @@ $(function () {
                 .attr('aria-disabled', 'true');
         }
     }
+
+    $('#comment-form').on('submit', function(event) {
+        event.preventDefault();
+
+        var $comment = $('#comment');
+        var commentText = $comment.val().trim();
+
+        if (!commentText) {
+            $comment.trigger('focus');
+            return;
+        }
+
+        $('#comments').append($('<li>').text(commentText));
+        $comment.val('').trigger('focus');
+    });
+
+    $('.comment-button').on('click', function() {
+        $('#comment').trigger('focus');
+    });
 
     // <><><> login/sign-up <><><>
     /* AI used to help generate the below section of code */

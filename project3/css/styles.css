@@ -276,7 +276,8 @@ main {
     margin-bottom: 0;
 }
 
-.cta-bar button {
+.cta-bar a {
+    display: inline-block;
     background: var(--ink);
     color: var(--bg);
     border: none;
@@ -290,8 +291,8 @@ main {
     transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.cta-bar button:hover,
-.cta-bar button:focus-visible {
+.cta-bar a:hover,
+.cta-bar a:focus-visible {
     background: var(--accent);
     color: var(--accent-ink);
     transform: translateY(-2px);
@@ -525,7 +526,8 @@ button.x:focus-visible {
 }
 
 #comment-section input {
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   border: none;
   border-bottom: 1px solid var(--border);
   padding: 0.5rem 0.1rem;
@@ -537,6 +539,39 @@ button.x:focus-visible {
 #comment-section input:focus-visible {
   outline: none;
   border-bottom-color: var(--ink);
+}
+
+#comment-form {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+#comment-form button {
+  flex: 0 0 auto;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.9rem;
+  background: var(--ink);
+  color: var(--bg);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+#comment-form button:hover,
+#comment-form button:focus-visible {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+#comments:not(:empty) {
+  margin-top: 1rem;
+}
+
+#comments li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
 }
 
 /* create blend flow*/
@@ -623,6 +658,15 @@ button.x:focus-visible {
 .product-tabs .tab:hover,
 .product-tabs .tab:focus-visible {
   color: var(--ink);
+}
+
+.product-tabs button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.product-panel > h2:not(.visually-hidden) {
+  margin-bottom: 0.75rem;
 }
 
 .product-grid {

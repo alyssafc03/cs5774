@@ -13,20 +13,20 @@
         
         <header>
             <div class="logo">YNQ</div>
-            <nav>
+            <nav aria-label="Main navigation">
                 <a href="home.html">Home</a>
                 <a href="list.html">Products</a>
                 <a href="create-ingredients.html" aria-current="page">Create a Blend</a>
-                <a href="account.html">Account</a>
+                <a href="your-blends.html">Your Blends</a>
             </nav>
         </header>
 
         <main>
-            <div id="status-bar" aria-label="Create a blend progress">
+            <nav id="status-bar" aria-label="Create a blend progress">
                 <a href="create-ingredients.html" aria-current="page">1. Ingredients </a>
                 <a href="create-products.html">/ 2. Products </a>
                 <a href="create-review.html">/ 3. Review </a>
-            </div>
+            </nav>
 
             <div class="create-blend-title">
                 <h1>Select base ingredients</h1>
@@ -34,6 +34,7 @@
             </div>
 
             <div class="create-layout">
+                <h2 class="visually-hidden">Choose ingredients</h2>
                 <div class="ingredient-grid">
                     <div class="card">
                         <input class="card-toggle" type="checkbox" id="ing-creatine" name="ingredients" value="Creatine" aria-labelledby="ing-creatine-name">

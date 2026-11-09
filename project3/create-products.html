@@ -12,11 +12,11 @@
 
         <header>
             <div class="logo">YNQ</div>
-            <nav>
+            <nav aria-label="Main navigation">
                 <a href="home.html">Home</a>
                 <a href="list.html">Products</a>
                 <a href="create-ingredients.html" aria-current="page">Create a Blend</a>
-                <a href="account.html">Account</a>
+                <a href="your-blends.html">Your Blends</a>
             </nav>
         </header>
 
@@ -35,43 +35,54 @@
             <div class="create-layout">
                 <div>
                     <div class="product-tabs" role="tablist" aria-label="Ingredient categories">
-                        <button class="tab-active" type="button" role="tab" aria-selected="true">Creatine</button>
-                        <button class="tab" type="button" role="tab" aria-selected="false">Caffeine</button>
-                        <button class="tab" type="button" role="tab" aria-selected="false">Beta-Alanine</button>
+                        <button id="tab-caffeine" class="tab-active" type="button" role="tab" aria-selected="true" aria-controls="panel-caffeine" tabindex="0">Caffeine</button>
+                        <button id="tab-creatine" class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-creatine" tabindex="-1">Creatine</button>
+                        <button id="tab-beta-alanine" class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-beta-alanine" tabindex="-1">Beta-Alanine</button>
                     </div>
 
-                    <div class="product-grid">
-                        <div class="card">
-                            <!-- image from https://amoretti.com/products/caffeine-extract-powder-ws?variant=6348426018848 -->
-                            <img src="img/products/caffeine1.jpg" alt="Amoretti caffeine extract powder tub">
-                            <div class="card-content">
-                                <h3>Caffeine</h3>
-                                <p>Amoretti</p>
-                                <p>$47.40</p>
-                                <button class="add" type="button">Add</button>
+                    <section id="panel-caffeine" class="product-panel" role="tabpanel" aria-labelledby="tab-caffeine" tabindex="0">
+                        <h2 class="visually-hidden">Caffeine products</h2>
+                        <div class="product-grid">
+                            <div class="card">
+                                <!-- image from https://amoretti.com/products/caffeine-extract-powder-ws?variant=6348426018848 -->
+                                <img src="img/products/caffeine1.jpg" alt="Amoretti caffeine extract powder tub">
+                                <div class="card-content">
+                                    <h3>Caffeine</h3>
+                                    <p>Amoretti</p>
+                                    <p>$47.40</p>
+                                    <button class="add" type="button">Add</button>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <!-- image from https://shopbvv.com/products/caffeine-powder-anhydrous-->
+                                <img src="img/products/caffeine2.jpg" alt="Bulk Vitamins and Vitamins caffeine anhydrous powder bag">
+                                <div class="card-content">
+                                    <h3>Caffeine</h3>
+                                    <p>BVV</p>
+                                    <p>$20.00</p>
+                                    <button class="add" type="button">Add</button>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <!-- image from https://www.amazon.com/Nutricost-Caffeine-Capsules-200mg-Capsule/dp/B01DFQSVK6 -->
+                                <img src="img/products/caffeine3.jpg" alt="Nutricost caffeine 200 mg capsule bottle">
+                                <div class="card-content">
+                                    <h3>Caffeine</h3>
+                                    <p>Nutricost</p>
+                                    <p>$18.95</p>
+                                    <button class="add" type="button">Add</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="card">
-                            <!-- image from https://shopbvv.com/products/caffeine-powder-anhydrous-->
-                            <img src="img/products/caffeine2.jpg" alt="Bulk Vitamins and Vitamins caffeine anhydrous powder bag">
-                            <div class="card-content">
-                                <h3>Caffeine</h3>
-                                <p>BVV</p>
-                                <p>$20.00</p>
-                                <button class="add" type="button">Add</button>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <!-- image from https://www.amazon.com/Nutricost-Caffeine-Capsules-200mg-Capsule/dp/B01DFQSVK6 -->
-                            <img src="img/products/caffeine3.jpg" alt="Nutricost caffeine 200 mg capsule bottle">
-                            <div class="card-content">
-                                <h3>Caffeine</h3>
-                                <p>Nutricost</p>
-                                <p>$18.95</p>
-                                <button class="add" type="button">Add</button>
-                            </div>
-                        </div>
-                    </div>
+                    </section>
+                    <section id="panel-creatine" class="product-panel" role="tabpanel" aria-labelledby="tab-creatine" tabindex="0" hidden>
+                        <h2>Creatine products</h2>
+                        <p>No products are available for Creatine yet.</p>
+                    </section>
+                    <section id="panel-beta-alanine" class="product-panel" role="tabpanel" aria-labelledby="tab-beta-alanine" tabindex="0" hidden>
+                        <h2>Beta-Alanine products</h2>
+                        <p>No products are available for Beta-Alanine yet.</p>
+                    </section>
                 </div>
 
                 <aside class="summary" aria-label="Your blend so far">
