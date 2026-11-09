@@ -251,6 +251,12 @@ $(function () {
     // <><><> product selection on the Products page <><><>
     // Stores one selected product for each ingredient.
     var selectedProducts = {};
+    var appliedProductFilters = {
+        minPrice: null,
+        maxPrice: null,
+        minWeight: null,
+        maxWeight: null
+    };
 
     $('.product-tabs').on('click', '[role="tab"]', function() {
         var $tab = $(this);
@@ -268,6 +274,7 @@ $(function () {
 
         $('.product-panel').prop('hidden', true);
         $('#' + panelId).prop('hidden', false);
+        applyProductFilters();
     }).on('keydown', '[role="tab"]', function(event) {
         var $tabs = $('.product-tabs [role="tab"]');
         var currentIndex = $tabs.index(this);
@@ -288,6 +295,82 @@ $(function () {
         event.preventDefault();
         $tabs.eq(nextIndex).trigger('focus').trigger('click');
     });
+
+    $('#product-filter-toggle').on('click', function() {
+        var $button = $(this);
+        var isExpanded = $button.attr('aria-expanded') === 'true';
+
+        $button.attr('aria-expanded', isExpanded ? 'false' : 'true')
+            .attr('aria-label', isExpanded ? 'Show product filters' : 'Hide product filters');
+        $('#product-filter-panel').prop('hidden', isExpanded);
+    });
+
+    $('#product-filter-panel').on('submit', function(event) {
+        event.preventDefault();
+        appliedProductFilters = {
+            minPrice: $('#min-price').val() === ''
+                ? null
+                : parseFloat($('#min-price').val()),
+            maxPrice: $('#max-price').val() === ''
+                ? null
+                : parseFloat($('#max-price').val()),
+            minWeight: $('#min-weight').val() === ''
+                ? null
+                : parseFloat($('#min-weight').val()),
+            maxWeight: $('#max-weight').val() === ''
+                ? null
+                : parseFloat($('#max-weight').val())
+        };
+        applyProductFilters();
+    });
+
+    function applyProductFilters() {
+        var $activePanel = $('.product-panel').filter(function() {
+            return !$(this).prop('hidden');
+        }).first();
+
+        if (!$activePanel.length) {
+            return;
+        }
+
+        var $grid = $activePanel.find('.product-grid');
+
+        if (!$grid.length) {
+            return;
+        }
+
+        var $emptyMessage = $grid.next('.product-filter-empty');
+
+        if (!$emptyMessage.length) {
+            $emptyMessage = $('<p class="product-filter-empty" aria-live="polite">')
+                .text('No products match these filters.')
+                .prop('hidden', true);
+            $grid.after($emptyMessage);
+        }
+
+        var visibleCount = 0;
+
+        $grid.find('.card').each(function() {
+            var $card = $(this);
+            var price = parseFloat($card.attr('data-price'));
+            var weight = parseFloat($card.attr('data-net-weight'));
+            var matches = (appliedProductFilters.minPrice === null ||
+                price >= appliedProductFilters.minPrice) &&
+                (appliedProductFilters.maxPrice === null ||
+                price <= appliedProductFilters.maxPrice) &&
+                (appliedProductFilters.minWeight === null ||
+                weight >= appliedProductFilters.minWeight) &&
+                (appliedProductFilters.maxWeight === null ||
+                weight <= appliedProductFilters.maxWeight);
+
+            $card.prop('hidden', !matches);
+            if (matches) {
+                visibleCount++;
+            }
+        });
+
+        $emptyMessage.prop('hidden', visibleCount > 0);
+    }
 
     function updateAvailableProducts(selectedIngredients) {
         $('.product-grid .add').each(function() {
@@ -473,6 +556,7 @@ $(function () {
         updateProductSummary();
         $('#caffeine-row').toggle(savedIngredients.indexOf('Caffeine') !== -1);
         $('#products-unavailable-note').prop('hidden', !hasUnavailableProducts);
+        applyProductFilters();
 
         // No ingredients means there is nothing to choose products for.
         if (savedIngredients.length === 0) {
