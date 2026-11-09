@@ -520,6 +520,73 @@ button.x:focus-visible {
   border-color: var(--ink);
 }
 
+#actions .like-button {
+  display: inline-flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+#actions .comment-button {
+  display: inline-flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+#actions .comment-button svg {
+  width: 1.65rem;
+  height: 1.65rem;
+  fill: var(--bg);
+  stroke: var(--ink);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+#actions .comment-button svg circle {
+  fill: var(--ink);
+  stroke: none;
+}
+
+#actions .like-button:hover,
+#actions .like-button:focus-visible,
+#actions .comment-button:hover,
+#actions .comment-button:focus-visible {
+  border: none;
+}
+
+#actions .like-button:focus-visible,
+#actions .comment-button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.like-button svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  fill: var(--bg);
+  stroke: var(--ink);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.like-button[aria-pressed="true"] svg {
+  fill: #d93025;
+  stroke: #d93025;
+}
+
 #comment-section {
   margin-top: 2.5rem;
   max-width: 40rem;

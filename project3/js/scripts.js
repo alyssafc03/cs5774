@@ -41,77 +41,64 @@ $(function () {
         }
     }
 
-    // <><><> blend details page <><><>
-    // info for each blend detail view page
-    var BLENDS = {
-        'funky-fuel': {
-            title: 'Funky Fuel', author: 'funkopop_fighter', cover: 'img/blend-cover-1.jpg',
-            ingredients: 'Caffeine, creatine, beta-alanine, L-citrulline, L-theanine, taurine, vitamin B6',
-            calories: '10', caffeine: '200 mg', carbs: '2 g', protein: '0 g'
-        },
-        'tropical-trap-tuesday': {
-            title: 'Tropical Trap Tuesday', author: 'leanbeefpatty', cover: 'img/blend-cover-2.jpg',
-            ingredients: 'Caffeine, creatine, taurine',
-            calories: '15', caffeine: '150 mg', carbs: '3 g', protein: '0 g'
-        },
-        'dare-to-do-exercise': {
-            title: 'Dare to do exercise', author: 'g_deutch', cover: 'img/blend-cover-3.jpg',
-            ingredients: 'Caffeine, creatine, beta-alanine',
-            calories: '5', caffeine: '300 mg', carbs: '1 g', protein: '0 g'
-        },
-        'diva-dominator': {
-            title: 'Diva Dominator', author: 'aquena', cover: 'img/blend-cover-4.jpg',
-            ingredients: 'Caffeine, taurine, L-citrulline, L-theanine',
-            calories: '10', caffeine: '180 mg', carbs: '2 g', protein: '0 g'
-        },
-        'dynamite': {
-            title: 'Dynamite', author: 'gym.monger', cover: 'img/blend-cover-5.jpg',
-            ingredients: 'Caffeine, taurine, L-citrulline, L-theanine',
-            calories: '20', caffeine: '350 mg', carbs: '4 g', protein: '0 g'
-        },
-        'spiritual-spinal-sunday': {
-            title: 'Spiritual Spinal Sunday', author: 'zesty', cover: 'img/blend-cover-6.jpg',
-            ingredients: 'Taurine, L-citrulline, L-theanine',
-            calories: '10', caffeine: '0 mg', carbs: '2 g', protein: '0 g'
-        },
-        'morning-momentum': {
-            title: 'Morning Momentum', author: 'you', cover: 'img/blend-cover-5.jpg',
-            ingredients: 'Caffeine, creatine, L-citrulline',
-            calories: '10', caffeine: '200 mg', carbs: '2 g', protein: '0 g'
-        },
-        'berry-betaine': {
-            title: 'Berry Betaine', author: 'you', cover: 'img/blend-cover-6.jpg',
-            ingredients: 'Caffeine, beta-alanine, taurine',
-            calories: '10', caffeine: '180 mg', carbs: '2 g', protein: '0 g'
+    // Carry each blend card's data into its detail-page URL.
+    $('.blend-grid .card').each(function() {
+        var $card = $(this);
+        var $detailLink = $card.find('a[href*="details.html?blend="]').first();
+
+        if (!$detailLink.length) {
+            return;
         }
-    };
+
+        var $image = $detailLink.find('img').first();
+        var author = $card.find('.card-author, .blend-card-meta')
+            .first().text().trim().replace(/^by\s+/i, '');
+        var detailData = {
+            title: $detailLink.find('.card-title').text().trim(),
+            author: author,
+            cover: $image.attr('src') || '',
+            ingredients: $card.attr('data-detail-ingredients') || '',
+            calories: $card.attr('data-calories') || '',
+            caffeine: $card.attr('data-caffeine') || '',
+            carbs: $card.attr('data-carbs') || '',
+            protein: $card.attr('data-protein') || ''
+        };
+        var detailUrl = new URL($detailLink.attr('href'), window.location.href);
+
+        $.each(detailData, function(key, value) {
+            if (value) {
+                detailUrl.searchParams.set(key, value);
+            }
+        });
+
+        $detailLink.attr('href', detailUrl.href);
+    });
 
     var $blendTitle = $('#blend-title');
 
     // only run on the details page
     if ($blendTitle.length) {
-        // blend that the url asks for
-        var blendId = new URLSearchParams(window.location.search).get('blend');
+        var params = new URLSearchParams(window.location.search);
+        var blendTitle = params.get('title');
+        var author = params.get('author');
+        var cover = params.get('cover');
+        var ingredients = params.get('ingredients');
 
-        // validation: if the url asks for a blend that doesn't exist, show a "not found" message
-        if (Object.prototype.hasOwnProperty.call(BLENDS, blendId)) {
-            var blend = BLENDS[blendId];
-
-            // fill the page in with this blend's info
-            document.title = 'YNQ - ' + blend.title;
-            $('#breadcrumb-title').attr('href', 'details.html?blend=' + encodeURIComponent(blendId));
-            $('#breadcrumb-title').text('/ ' + blend.title + ' ');
+        if (blendTitle && author && cover && ingredients) {
+            document.title = 'YNQ - ' + blendTitle;
+            $('#breadcrumb-title').attr('href', window.location.href)
+                .text('/ ' + blendTitle + ' ');
             $('#blend-detail-cover-img img').attr({
-                src: blend.cover,
-                alt: 'cover art for ' + blend.title + ' blend'
+                src: cover,
+                alt: 'cover art for ' + blendTitle + ' blend'
             });
-            $('#username').text(blend.author);
-            $blendTitle.text(blend.title);
-            $('#blend-ingredients').text(blend.ingredients);
-            $('#nutrition-calories').text(blend.calories);
-            $('#nutrition-caffeine').text(blend.caffeine);
-            $('#nutrition-carbs').text(blend.carbs);
-            $('#nutrition-protein').text(blend.protein);
+            $('#username').text(author);
+            $blendTitle.text(blendTitle);
+            $('#blend-ingredients').text(ingredients);
+            $('#nutrition-calories').text(params.get('calories') || '—');
+            $('#nutrition-caffeine').text(params.get('caffeine') || '—');
+            $('#nutrition-carbs').text(params.get('carbs') || '—');
+            $('#nutrition-protein').text(params.get('protein') || '—');
         }
         else {
             // unknown blend: hide the details and show the not found message
@@ -450,6 +437,14 @@ $(function () {
 
         $('#comments').append($('<li>').text(commentText));
         $comment.val('').trigger('focus');
+    });
+
+    $('.like-button').on('click', function() {
+        var $button = $(this);
+        var isLiked = $button.attr('aria-pressed') === 'true';
+
+        $button.attr('aria-pressed', isLiked ? 'false' : 'true')
+            .attr('aria-label', isLiked ? 'Like blend' : 'Unlike blend');
     });
 
     $('.comment-button').on('click', function() {

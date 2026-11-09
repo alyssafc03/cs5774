@@ -25,46 +25,56 @@
                 <span>
                     <a href="home.html">Home </a>
                     <a href="list.html">/ Popular Blends </a>
-                    <a href="details.html?blend=funky-fuel" id="breadcrumb-title" aria-current="page">/ Item Title </a>
+                    <a href="details.html" id="breadcrumb-title" aria-current="page"></a>
                 </span>
             </nav>
 
             <div class="detail-layout">
                 <div id="blend-detail-cover-img">
-                    <img src="img/blend-cover-1.jpg" alt="cover art for funky fuel blend">
+                    <img alt="">
                 </div>
 
                 <div id="details">
                     <div id="author-info">
                         <img src="img/avatar-1.png" alt="profile picture">
-                        <p id="username">funkopop_fighter</p>
+                        <p id="username"></p>
                     </div>
 
                     <button class="x" type="button" aria-label="Close blend details">x</button>
                     
-                    <h1 id="blend-title">Funky Fuel</h1>
+                    <h1 id="blend-title"></h1>
 
                     <div id="ingredients">
                         <p><strong>Ingredients:</strong></p>
-                        <p id="blend-ingredients">Caffeine, creatine, beta-alanine, L-citrulline, L-theanine, taurine, vitamin B6</p>
+                        <p id="blend-ingredients"></p>
                     </div>
 
                     <div id="nutrition">
                         <p><strong>Nutrition info:</strong></p>
                         <ul>
-                            <li>Calories: <span id="nutrition-calories">10</span></li>
-                            <li>Caffeine: <span id="nutrition-caffeine">200 mg</span></li>
-                            <li>Carbs: <span id="nutrition-carbs">2 g</span></li>
-                            <li>Protein: <span id="nutrition-protein">0 g</span></li>
+                            <li>Calories: <span id="nutrition-calories"></span></li>
+                            <li>Caffeine: <span id="nutrition-caffeine"></span></li>
+                            <li>Carbs: <span id="nutrition-carbs"></span></li>
+                            <li>Protein: <span id="nutrition-protein"></span></li>
                         </ul>
                     </div>
                 </div> <!-- close blend-details -->
             </div> <!-- close detail-layout -->
 
             <div id="actions">
-                <button class="like-button" type="button">Like</button>
-                <button class="comment-button" type="button">Comment</button>
-                <button class="more-button" type="button" aria-label="More options">...</button>
+                <button class="like-button" type="button" aria-label="Like blend" aria-pressed="false">
+                    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+                        <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"></path>
+                    </svg>
+                </button>
+                <button class="comment-button" type="button" aria-label="Add a comment">
+                    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+                        <path d="M12 3.5c-5.2 0-9.5 3.4-9.5 7.7 0 2.4 1.4 4.5 3.7 5.9l-.9 3.4 4.2-2c.8.2 1.6.3 2.5.3 5.2 0 9.5-3.4 9.5-7.7S17.2 3.5 12 3.5Z"></path>
+                        <circle cx="7.5" cy="11.2" r="1"></circle>
+                        <circle cx="12" cy="11.2" r="1"></circle>
+                        <circle cx="16.5" cy="11.2" r="1"></circle>
+                    </svg>
+                </button>
             </div>
 
             <div id="comment-section">
