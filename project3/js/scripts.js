@@ -99,6 +99,7 @@ $(function () {
 
             // fill the page in with this blend's info
             document.title = 'YNQ - ' + blend.title;
+            $('#breadcrumb-title').attr('href', 'details.html?blend=' + encodeURIComponent(blendId));
             $('#breadcrumb-title').text('/ ' + blend.title + ' ');
             $('#blend-detail-cover-img img').attr({
                 src: blend.cover,
@@ -301,6 +302,13 @@ $(function () {
         $tabs.eq(nextIndex).trigger('focus').trigger('click');
     });
 
+    function updateAvailableProducts(selectedIngredients) {
+        $('.product-grid .add').each(function() {
+            var ingredient = $(this).closest('.card').find('h3').first().text().trim();
+            $(this).prop('disabled', selectedIngredients.indexOf(ingredient) === -1);
+        });
+    }
+
     // Update the product summary using the ingredients selected on
     // the previous page and the products selected on this page.
     function updateProductSummary() {
@@ -326,8 +334,13 @@ $(function () {
                         $('<li>').text(ingredient + ': ' + product.brand)
                     );
                 } else {
+                    var hasProductTab = $('.product-tabs [role="tab"]').filter(function() {
+                        return $(this).text().trim() === ingredient;
+                    }).length > 0;
                     $productList.append(
-                        $('<li>').text(ingredient + ': No product selected')
+                        $('<li>').text(ingredient + (hasProductTab
+                            ? ': No product selected'
+                            : ': No product options available yet'))
                     );
                 }
             });
@@ -396,8 +409,25 @@ $(function () {
     // Initialize the Products page from the saved ingredient selections.
     if ($('.product-grid').length) {
         var savedIngredients = getSelectedIngredients();
+        var productIngredients = $('.product-tabs [role="tab"]').map(function() {
+            return $(this).text().trim();
+        }).get();
+        var hasUnavailableProducts = savedIngredients.some(function(ingredient) {
+            return productIngredients.indexOf(ingredient) === -1;
+        });
 
+        updateAvailableProducts(savedIngredients);
         updateProductSummary();
+        $('#caffeine-row').toggle(savedIngredients.indexOf('Caffeine') !== -1);
+        $('#products-unavailable-note').prop('hidden', !hasUnavailableProducts);
+
+        var $firstSelectedTab = $('.product-tabs [role="tab"]').filter(function() {
+            return savedIngredients.indexOf($(this).text().trim()) !== -1;
+        }).first();
+
+        if ($firstSelectedTab.length) {
+            $firstSelectedTab.trigger('click');
+        }
 
         // No ingredients means there is nothing to choose products for.
         if (savedIngredients.length === 0) {
