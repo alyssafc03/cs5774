@@ -11,9 +11,35 @@ async function loadBlends() {
        blends.forEach(function(blend) {
         $('.blend-grid').append(createCard(blend));
        });
+       applyBlendSearch();
     } catch (err) {
         console.error('Could not load blends:', err);
     }
+}
+
+function applyBlendSearch() {
+    const $blendGrid = $('.blend-grid');
+    const submittedText = new URLSearchParams(window.location.search).get('q') || '';
+    const submittedPhrase = submittedText.trim().toLowerCase();
+
+    $('.search-term').text(submittedText);
+    $('.site-search input[name="q"]').val(submittedText);
+
+    if (!submittedPhrase) {
+        return;
+    }
+
+    if (submittedPhrase === 'caffeine') {
+        $blendGrid.children('.card').each(function() {
+            const ingredients = ($(this).attr('data-ingredients') || '').toLowerCase();
+            $(this).prop('hidden', !ingredients.includes(submittedPhrase));
+        });
+        $('#search-summary').prop('hidden', false);
+        return;
+    }
+
+    $blendGrid.prop('hidden', true);
+    $('#search-none').prop('hidden', false);
 }
 
 function createCard(blend) {
@@ -24,7 +50,7 @@ function createCard(blend) {
                                 '"></div>');
     
     var link = $('<a href="details.html?blend=' + blend.id + '"></a>').appendTo(div);
-    $('<img class="card-img" alt="blend cover">')
+    $('<img class="card-img" alt="blend cover image">')
         .attr('src', pb.files.getURL(blend, blend.coverImage))
         .appendTo(link);
     $('<p class="card-title">' + blend.title + '</p>').appendTo(link);
