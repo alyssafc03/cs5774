@@ -3,7 +3,7 @@ $(function () {
     
     // search results for the site search page
     var SEARCH_KEYPHRASE = 'caffeine';
-    var $blendGrid = $('.blend-grid');
+    // var $blendGrid = $('.blend-grid');
 
     // only run search on list page
     if ($blendGrid.length) {
@@ -25,7 +25,7 @@ $(function () {
                 // get the ingredients for this blend
                 var ingredients = $card.attr('data-ingredients') || '';
                 // filter out cards that aren't relevant
-                $card.prop('hidden', ingredients.indexOf(SEARCH_KEYPHRASE) === -1);
+                $card.prop('hidden', ingredients.toLowerCase().indexOf(SEARCH_KEYPHRASE) === -1);
             });
             $('#search-summary').prop('hidden', false);
         }
@@ -42,37 +42,37 @@ $(function () {
     }
 
     // Carry each blend card's data into its detail-page URL.
-    $('.blend-grid .card').each(function() {
-        var $card = $(this);
-        var $detailLink = $card.find('a[href*="details.html?blend="]').first();
+    // $('.blend-grid .card').each(function() {
+    //     var $card = $(this);
+    //     var $detailLink = $card.find('a[href*="details.html?blend="]').first();
 
-        if (!$detailLink.length) {
-            return;
-        }
+    //     if (!$detailLink.length) {
+    //         return;
+    //     }
 
-        var $image = $detailLink.find('img').first();
-        var author = $card.find('.card-author, .blend-card-meta')
-            .first().text().trim().replace(/^by\s+/i, '');
-        var detailData = {
-            title: $detailLink.find('.card-title').text().trim(),
-            author: author,
-            cover: $image.attr('src') || '',
-            ingredients: $card.attr('data-detail-ingredients') || '',
-            calories: $card.attr('data-calories') || '',
-            caffeine: $card.attr('data-caffeine') || '',
-            carbs: $card.attr('data-carbs') || '',
-            protein: $card.attr('data-protein') || ''
-        };
-        var detailUrl = new URL($detailLink.attr('href'), window.location.href);
+    //     var $image = $detailLink.find('img').first();
+    //     var author = $card.find('.card-author, .blend-card-meta')
+    //         .first().text().trim().replace(/^by\s+/i, '');
+    //     var detailData = {
+    //         title: $detailLink.find('.card-title').text().trim(),
+    //         author: author,
+    //         cover: $image.attr('src') || '',
+    //         ingredients: $card.attr('data-ingredients') || '',
+    //         calories: $card.attr('data-calories') || '',
+    //         caffeine: $card.attr('data-caffeine') || '',
+    //         carbs: $card.attr('data-carbs') || '',
+    //         protein: $card.attr('data-protein') || ''
+    //     };
+    //     var detailUrl = new URL($detailLink.attr('href'), window.location.href);
 
-        $.each(detailData, function(key, value) {
-            if (value) {
-                detailUrl.searchParams.set(key, value);
-            }
-        });
+    //     $.each(detailData, function(key, value) {
+    //         if (value) {
+    //             detailUrl.searchParams.set(key, value);
+    //         }
+    //     });
 
-        $detailLink.attr('href', detailUrl.href);
-    });
+    //     $detailLink.attr('href', detailUrl.href);
+    // });
 
     var $blendTitle = $('#blend-title');
 
