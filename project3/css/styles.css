@@ -925,8 +925,17 @@ button.x:focus-visible {
 .product-grid .card img {
   width: 100%;
   aspect-ratio: 1 / 1;
-  object-fit: cover;
-  background: var(--surface-strong);
+  object-fit: contain;
+  background: #FFFFFF;
+}
+
+.product-image-link {
+  display: block;
+}
+
+.product-image-link:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
 }
 
 .card-content {
@@ -940,6 +949,10 @@ button.x:focus-visible {
 .card-content p {
   font-size: 0.85rem;
   color: var(--ink-soft);
+  margin-bottom: 0rem;
+}
+
+.card-content .product-price {
   margin-bottom: 0.5rem;
 }
 
@@ -949,6 +962,7 @@ button.x:focus-visible {
 
 .card-content .add {
   width: 100%;
+  margin-top: 0.5rem;
   border: 1px solid var(--ink);
   background: var(--bg);
   border-radius: var(--radius-sm);
@@ -961,6 +975,17 @@ button.x:focus-visible {
 .card-content .add:focus-visible {
   background: var(--accent);
   border-color: var(--accent);
+}
+
+.card-content .add.product-added {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.card-content .add.product-added:hover,
+.card-content .add.product-added:focus-visible {
+  border-color: var(--ink);
 }
 
 .card-content .add:disabled,

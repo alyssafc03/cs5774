@@ -62,16 +62,7 @@ $(function() {
     }
 
     function productIngredients(product) {
-        const expanded = product.expand && product.expand.ingredient;
-        const value = expanded || firstValue(product, [
-            'ingredient',
-            'ingredients',
-            'ingredientName',
-            'ingredient_name',
-            'category'
-        ]);
-        const names = ingredientName(value);
-        return Array.isArray(names) ? names : [names];
+        return [ingredientName(product.name)];
     }
 
     function numericValue(value) {
@@ -98,6 +89,28 @@ $(function() {
             'size',
             'quantity'
         ]));
+    }
+
+    function getProductServings(product) {
+        return numericValue(firstValue(product, ['servings']));
+    }
+
+    function getProductCaffeineContent(product) {
+        return numericValue(firstValue(product, ['caffeine_content']));
+    }
+
+    function getProductURL(product) {
+        const value = firstValue(product, ['url']);
+        if (!value) {
+            return null;
+        }
+
+        try {
+            const url = new URL(value);
+            return url.protocol === 'http:' || url.protocol === 'https:' ? url.href : null;
+        } catch (error) {
+            return null;
+        }
     }
 
     function getProductBrand(product) {
@@ -153,8 +166,11 @@ $(function() {
     function renderProduct(product, ingredient) {
         const price = getProductPrice(product);
         const weight = getProductWeight(product);
+        const servings = getProductServings(product);
+        const caffeineContent = getProductCaffeineContent(product);
         const name = firstValue(product, ['name', 'title', 'productName', 'product_name']) || ingredient;
         const brand = getProductBrand(product);
+        const productURL = getProductURL(product);
         const imageField = firstValue(product, [
             'image',
             'photo',
@@ -171,18 +187,38 @@ $(function() {
             .append(
                 $('<h3>').text(name),
                 $('<p>').text(brand),
-                $('<p>').text(price === null ? 'Price unavailable' : '$' + price.toFixed(2)),
+                $('<p class="product-price">').text(price === null ? 'Price unavailable' : '$' + price.toFixed(2)),
                 $('<p class="product-net-weight">').text(
                     weight === null ? 'Net weight unavailable' : 'Net weight: ' + weight + ' g'
                 ),
-                $('<button class="add" type="button">').text('Add')
+                $('<p>').text(servings === null ? 'Servings unavailable' : 'Servings: ' + servings)
             );
 
+        if (normalized(ingredient) === 'caffeine') {
+            $content.append($('<p>').text(
+                caffeineContent === null
+                    ? 'Caffeine content unavailable'
+                    : 'Caffeine: ' + caffeineContent + ' mg'
+            ));
+        }
+
+        $content.append($('<button class="add" type="button">').text('Add'));
+
         if (imageName) {
-            $('<img>').attr({
+            const $image = $('<img>').attr({
                 src: pb.files.getURL(product, imageName),
                 alt: name + ' by ' + brand
-            }).prependTo($content);
+            });
+
+            if (productURL) {
+                $('<a class="product-image-link">').attr({
+                    href: productURL,
+                    target: '_blank',
+                    rel: 'noopener noreferrer'
+                }).append($image).prependTo($content);
+            } else {
+                $image.prependTo($content);
+            }
         }
 
         $card.attr('data-ingredient', ingredient).append($content);
@@ -240,6 +276,17 @@ $(function() {
         $('#caffeine-row').prop('hidden', !ingredients.some(function(ingredient) {
             return normalized(ingredient) === 'caffeine';
         }));
+        const caffeineIngredient = ingredients.find(function(ingredient) {
+            return normalized(ingredient) === 'caffeine';
+        });
+        const caffeineProduct = caffeineIngredient && selectedProducts[caffeineIngredient];
+        $('#caffeine-content').text(
+            !caffeineProduct
+                ? 'Not selected'
+                : caffeineProduct.caffeineContent === null
+                    ? 'Unknown'
+                    : caffeineProduct.caffeineContent + ' mg'
+        );
         $summary.find('a.submit')
             .toggleClass('is-disabled', ingredients.length === 0)
             .attr('aria-disabled', ingredients.length === 0 ? 'true' : 'false');
@@ -361,7 +408,8 @@ $(function() {
             selectedProducts[ingredient] = {
                 id: product.id,
                 brand: getProductBrand(product),
-                price: getProductPrice(product)
+                price: getProductPrice(product),
+                caffeineContent: getProductCaffeineContent(product)
             };
         }
 
@@ -395,9 +443,7 @@ $(function() {
         }
 
         try {
-            products = await pb.collection('products').getFullList({
-                expand: 'ingredient'
-            });
+            products = await pb.collection('products').getFullList();
         } catch (error) {
             console.error('Could not load products from PocketBase:', error);
             showError('Unable to load products from the database. Please try again later.');

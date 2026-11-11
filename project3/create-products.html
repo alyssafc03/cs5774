@@ -22,9 +22,9 @@
 
         <main>
             <nav id="status-bar" aria-label="Create a blend progress">
-                <a href="create-ingredients.html">1. Ingredients </a>
-                <a href="create-products.html" aria-current="step"> 2. Products </a>
-                <a href="create-review.html"> 3. Review </a>
+                <a href="create-ingredients.html"                 >1. Ingredients</a>
+                <a href="create-products.html" aria-current="step">2. Products</a>
+                <a href="create-review.html"                      >3. Review</a>
             </nav>
 
             <div class="create-blend-title">
@@ -58,7 +58,6 @@
                             <button class="clear-product-filters" type="reset">Clear fields</button>
                         </div>
                     </form>
-                    <p id="products-unavailable-note" aria-live="polite" hidden>Some selected ingredients do not have product listings yet.</p>
                     <p id="products-loading" aria-live="polite">Loading products...</p>
                     <p id="products-error" role="alert" hidden></p>
                     <div id="product-panels"></div>
@@ -71,7 +70,7 @@
                     </ul>
                     <p id="caffeine-row" hidden>
                         <span>Caffeine</span>
-                        <span>200 mg</span>
+                        <span id="caffeine-content">Not selected</span>
                     </p>
                     <p><span>Products chosen</span> <span id="products-chosen">0 of 0</span></p>
                     <p><span>Total price</span> <span id="total-price">$0.00</span></p>
