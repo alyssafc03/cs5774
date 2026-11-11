@@ -28,9 +28,9 @@
 
         <main>
             <nav id="status-bar" aria-label="Create a blend progress">
-                <a href="create-ingredients.html">1. Ingredients </a>
-                <a href="create-products.html"> 2. Products </a>
-                <a href="create-review.html" aria-current="step"> 3. Review </a>
+                <a href="create-ingredients.html">1. Ingredients</a>
+                <a href="create-products.html">2. Products</a>
+                <a href="create-review.html" aria-current="step">3. Review</a>
             </nav>
 
             <div class="create-blend-title">
@@ -39,10 +39,10 @@
             </div>
 
             <div class="create-layout">
-                <form>
+                <form id="blend-details-form">
                     <div class="form-text">
                         <label for="blend-name">Name your blend</label>
-                        <input type="text" id="blend-name" name="blend-name" placeholder="Tuesday Tricep Tranquilizer">
+                        <input type="text" id="blend-name" name="blend-name" placeholder="Name your blend">
                     </div>
                     <div class="form-text">
                         <label for="blend-flavor">Choose your flavor</label>
@@ -66,14 +66,17 @@
 
                 <aside class="summary" aria-label="Your blend so far">
                     <h2>Your blend</h2>
-                    <ul class="selected-ingredients">
-                        <li>Caffeine</li>
-                        <li>Creatine</li>
-                        <li>Beta-Alanine</li>
+                    <p id="review-loading" aria-live="polite">Loading your blend...</p>
+                    <p id="review-error" role="alert" hidden></p>
+                    <ul id="review-ingredients" class="selected-ingredients">
+                        <li class="empty-note">No ingredients selected</li>
                     </ul>
-                    <p><span>Caffeine</span> <span>200 mg</span></p>
-                    <p><span>Products chosen</span> <span>3 of 3</span></p>
-                    <p><span>Total price</span> <span>$54.10</span></p>
+                    <p id="review-caffeine-row" hidden>
+                        <span>Caffeine</span>
+                        <span id="review-caffeine-content">Not selected</span>
+                    </p>
+                    <p><span>Products chosen</span> <span id="review-products-chosen">0 of 0</span></p>
+                    <p><span>Total price</span> <span id="review-total-price">$0.00</span></p>
                     <a class="submit" href="list.html">Continue</a>
                 </aside>
             </div>
@@ -98,6 +101,7 @@
         <script src="js/jquery-4.0.0.min.js"></script>
         <script src="js/pocketbase.umd.js"></script>
         <script src="js/scripts.js"></script>
+        <script src="js/review.js"></script>
         <script src="js/auth.js"></script>
     </body>
 </html>

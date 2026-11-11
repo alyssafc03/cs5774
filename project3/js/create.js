@@ -37,6 +37,31 @@ $(function() {
         }).filter(Boolean)));
     }
 
+    function readSavedProducts() {
+        const saved = sessionStorage.getItem('selectedProducts');
+        if (!saved) {
+            return {};
+        }
+
+        const parsed = JSON.parse(saved);
+        if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed) ||
+            !Object.keys(parsed).every(function(ingredient) {
+                return typeof parsed[ingredient] === 'string';
+            })) {
+            throw new Error('Saved product selections are not in the expected format.');
+        }
+
+        return parsed;
+    }
+
+    function saveSelectedProducts() {
+        const saved = {};
+        Object.keys(selectedProducts).forEach(function(ingredient) {
+            saved[ingredient] = selectedProducts[ingredient].id;
+        });
+        sessionStorage.setItem('selectedProducts', JSON.stringify(saved));
+    }
+
     function normalized(value) {
         return String(value || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
     }
@@ -247,6 +272,14 @@ $(function() {
         });
 
         $('#products-unavailable-note').prop('hidden', unavailableCount === 0);
+
+        $panels.find('.product-grid .card').each(function() {
+            const selected = selectedProducts[$(this).attr('data-ingredient')];
+            const isSelected = selected && selected.id === $(this).attr('data-product-id');
+            $(this).find('.add')
+                .text(isSelected ? 'Added' : 'Add')
+                .toggleClass('product-added', Boolean(isSelected));
+        });
     }
 
     function updateSummary() {
@@ -413,6 +446,7 @@ $(function() {
             };
         }
 
+        saveSelectedProducts();
         $panels.find('.product-grid .card').each(function() {
             const selected = selectedProducts[$(this).attr('data-ingredient')];
             const isSelected = selected && selected.id === $(this).attr('data-product-id');
@@ -424,11 +458,13 @@ $(function() {
     });
 
     async function initialize() {
+        let savedProducts;
         try {
             ingredients = readSelectedIngredients();
+            savedProducts = readSavedProducts();
         } catch (error) {
-            console.error('Could not read the selected ingredients:', error);
-            showError('Could not read your selected ingredients. Please return to the ingredients step and try again.');
+            console.error('Could not read the saved blend selections:', error);
+            showError('Could not read your saved selections. Please return to the previous step and try again.');
             return;
         }
 
@@ -447,6 +483,33 @@ $(function() {
         } catch (error) {
             console.error('Could not load products from PocketBase:', error);
             showError('Unable to load products from the database. Please try again later.');
+            return;
+        }
+
+        try {
+            ingredients.forEach(function(ingredient) {
+                const productId = savedProducts[ingredient];
+                if (!productId) {
+                    return;
+                }
+
+                const product = products.find(function(item) {
+                    return item.id === productId;
+                });
+                if (!product || !matchesIngredient(product, ingredient)) {
+                    throw new Error('A saved product is no longer available for ' + ingredient + '.');
+                }
+
+                selectedProducts[ingredient] = {
+                    id: product.id,
+                    brand: getProductBrand(product),
+                    price: getProductPrice(product),
+                    caffeineContent: getProductCaffeineContent(product)
+                };
+            });
+        } catch (error) {
+            console.error('Could not restore saved product selections:', error);
+            showError('A previously selected product is no longer available. Choose another product to continue.');
             return;
         }
 
