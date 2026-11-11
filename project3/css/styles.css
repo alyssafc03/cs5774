@@ -663,6 +663,7 @@ button.x:focus-visible {
   cursor: pointer;
 }
 
+#actions .edit-button,
 #actions .delete-button {
   display: inline-flex;
   width: 2.75rem;
@@ -672,17 +673,19 @@ button.x:focus-visible {
   padding: 0.55rem;
   border: none;
   background: transparent;
-  color: #000000;
+  color: var(--ink);
   cursor: pointer;
 }
 
+#actions .edit-button[hidden],
+#actions .delete-button[hidden] {
+  display: none;
+}
+
+#actions .edit-button:hover,
 #actions .delete-button:hover,
 #actions .like-button:hover {
   color: #b42318;
-}
-
-#actions .delete-button[hidden] {
-  display: none;
 }
 
 #actions .comment-button svg {
@@ -700,6 +703,7 @@ button.x:focus-visible {
   stroke: none;
 }
 
+#actions .edit-button svg,
 #actions .delete-button svg {
   width: 1.4rem;
   height: 1.4rem;
@@ -714,6 +718,8 @@ button.x:focus-visible {
 #actions .like-button:focus-visible,
 #actions .comment-button:hover,
 #actions .comment-button:focus-visible,
+#actions .edit-button:hover,
+#actions .edit-button:focus-visible,
 #actions .delete-button:hover,
 #actions .delete-button:focus-visible {
   border: none;
@@ -721,9 +727,32 @@ button.x:focus-visible {
 
 #actions .like-button:focus-visible,
 #actions .comment-button:focus-visible,
+#actions .edit-button:focus-visible,
 #actions .delete-button:focus-visible {
   outline: 2px solid var(--ink);
   outline-offset: 2px;
+}
+
+#edit-blend-form {
+  max-width: 28rem;
+  margin-bottom: 1rem;
+}
+
+#edit-blend-form .form-text {
+  margin-bottom: 0.75rem;
+}
+
+#edit-blend-form button {
+  margin-right: 0.5rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  cursor: pointer;
+}
+
+#edit-blend-error {
+  color: #b42318;
 }
 
 #delete-blend-error {

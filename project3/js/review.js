@@ -126,7 +126,7 @@ $(function() {
         const data = new FormData();
 
         data.append('title', title);
-        data.append('author', user ? (user.username || user.email) : 'Guest');
+        data.append('author', user && user.name ? user.name : 'Guest');
         data.append('ingredients', ingredients.join(', '));
         data.append('flavor', flavorSelect.options[flavorSelect.selectedIndex].text);
         data.append('caffeine', caffeineAmount);

@@ -50,6 +50,26 @@
                     
                     <h1 id="blend-title"></h1>
 
+                    <form id="edit-blend-form" class="edit-blend-form" hidden>
+                        <div class="form-text">
+                            <label for="edit-blend-title">Blend name</label>
+                            <input id="edit-blend-title" name="title" type="text" required>
+                        </div>
+                        <div class="form-text">
+                            <label for="edit-blend-flavor">Flavor</label>
+                            <select id="edit-blend-flavor" name="flavor" required>
+                                <option value="Fruit punch">Fruit punch</option>
+                                <option value="Blue raspberry">Blue raspberry</option>
+                                <option value="Strawberry">Strawberry</option>
+                                <option value="Cherry cola">Cherry cola</option>
+                                <option value="Unflavored">Unflavored</option>
+                            </select>
+                        </div>
+                        <p id="edit-blend-error" role="alert" hidden></p>
+                        <button type="submit" id="save-blend-changes">Save changes</button>
+                        <button type="button" id="cancel-blend-edit">Cancel</button>
+                    </form>
+
                     <div id="ingredients">
                         <p><strong>Ingredients:</strong></p>
                         <p id="blend-ingredients"></p>
@@ -87,6 +107,12 @@
                         <circle cx="7.5" cy="11.2" r="1"></circle>
                         <circle cx="12" cy="11.2" r="1"></circle>
                         <circle cx="16.5" cy="11.2" r="1"></circle>
+                    </svg>
+                </button>
+                <button class="edit-button" id="edit-blend-button" type="button"
+                        aria-label="Edit blend" title="Edit blend" hidden>
+                    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+                        <path d="m14 5 5 5M4 20l4.5-1 11-11a2.1 2.1 0 0 0-3-3l-11 11L4 20Z"></path>
                     </svg>
                 </button>
                 <button class="delete-button" id="delete-blend-button" type="button"
