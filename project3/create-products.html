@@ -34,11 +34,7 @@
 
             <div class="create-layout">
                 <div>
-                    <div class="product-tabs" role="tablist" aria-label="Ingredient categories">
-                        <button id="tab-caffeine"     class="tab-active" type="button" role="tab" aria-selected="true"  aria-controls="panel-caffeine"     tabindex="0">Caffeine</button>
-                        <button id="tab-creatine"     class="tab"        type="button" role="tab" aria-selected="false" aria-controls="panel-creatine"     tabindex="-1">Creatine</button>
-                        <button id="tab-beta-alanine" class="tab"        type="button" role="tab" aria-selected="false" aria-controls="panel-beta-alanine" tabindex="-1">Beta-Alanine</button>
-                    </div>
+                    <div class="product-tabs" data-dynamic="true" role="tablist" aria-label="Ingredient categories"></div>
                     <div class="product-tools">
                         <button id="product-filter-toggle" class="product-filter-toggle" type="button" aria-expanded="false" aria-controls="product-filter-panel" aria-label="Show product filters">
                             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -63,91 +59,9 @@
                         </div>
                     </form>
                     <p id="products-unavailable-note" aria-live="polite" hidden>Some selected ingredients do not have product listings yet.</p>
-
-                    <section id="panel-caffeine" class="product-panel" role="tabpanel" aria-labelledby="tab-caffeine" tabindex="0">
-                        <h2  class="visually-hidden">Caffeine products</h2>
-                        <div class="product-grid">
-                            <div class="card" data-price="47.40" data-net-weight="113">
-                                <!-- image from https://amoretti.com/products/caffeine-extract-powder-ws?variant=6348426018848 -->
-                                <img src="img/products/caffeine1.jpg" alt="Amoretti caffeine extract powder tub">
-                                <div class="card-content">
-                                    <h3>Caffeine</h3>
-                                    <p>Amoretti</p>
-                                    <p>$47.40</p>
-                                    <p class="product-net-weight">Sample net weight: 113 g</p>
-                                    <button class="add" type="button">Add</button>
-                                </div>
-                            </div>
-                            <div class="card" data-price="20.00" data-net-weight="100">
-                                <!-- image from https://shopbvv.com/products/caffeine-powder-anhydrous-->
-                                <img src="img/products/caffeine2.jpg" alt="Bulk Vitamins and Vitamins caffeine anhydrous powder bag">
-                                <div class="card-content">
-                                    <h3>Caffeine</h3>
-                                    <p>BVV</p>
-                                    <p>$20.00</p>
-                                    <p class="product-net-weight">Sample net weight: 100 g</p>
-                                    <button class="add" type="button">Add</button>
-                                </div>
-                            </div>
-                            <div class="card" data-price="18.95" data-net-weight="50">
-                                <!-- image from https://www.amazon.com/Nutricost-Caffeine-Capsules-200mg-Capsule/dp/B01DFQSVK6 -->
-                                <img src="img/products/caffeine3.jpg" alt="Nutricost caffeine 200 mg capsule bottle">
-                                <div class="card-content">
-                                    <h3>Caffeine</h3>
-                                    <p>Nutricost</p>
-                                    <p>$18.95</p>
-                                    <p class="product-net-weight">Sample net weight: 50 g</p>
-                                    <button class="add" type="button">Add</button>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <section id="panel-creatine" class="product-panel" role="tabpanel" aria-labelledby="tab-creatine" tabindex="0" hidden>
-                        <h2>Creatine products</h2>
-                        <div class="product-grid">
-                            <div class="card" data-price="24.99" data-net-weight="500">
-                                <div class="card-content">
-                                    <h3>Creatine</h3>
-                                    <p>Pure Form</p>
-                                    <p>$24.99</p>
-                                    <p class="product-net-weight">Sample net weight: 500 g</p>
-                                    <button class="add" type="button">Add</button>
-                                </div>
-                            </div>
-                            <div class="card" data-price="19.50" data-net-weight="300">
-                                <div class="card-content">
-                                    <h3>Creatine</h3>
-                                    <p>Peak Labs</p>
-                                    <p>$19.50</p>
-                                    <p class="product-net-weight">Sample net weight: 300 g</p>
-                                    <button class="add" type="button">Add</button>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <section id="panel-beta-alanine" class="product-panel" role="tabpanel" aria-labelledby="tab-beta-alanine" tabindex="0" hidden>
-                        <h2>Beta-Alanine products</h2>
-                        <div class="product-grid">
-                            <div class="card" data-price="21.75" data-net-weight="250">
-                                <div class="card-content">
-                                    <h3>Beta-Alanine</h3>
-                                    <p>Pure Form</p>
-                                    <p>$21.75</p>
-                                    <p class="product-net-weight">Sample net weight: 250 g</p>
-                                    <button class="add" type="button">Add</button>
-                                </div>
-                            </div>
-                            <div class="card" data-price="17.25" data-net-weight="200">
-                                <div class="card-content">
-                                    <h3>Beta-Alanine</h3>
-                                    <p>Peak Labs</p>
-                                    <p>$17.25</p>
-                                    <p class="product-net-weight">Sample net weight: 200 g</p>
-                                    <button class="add" type="button">Add</button>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                    <p id="products-loading" aria-live="polite">Loading products...</p>
+                    <p id="products-error" role="alert" hidden></p>
+                    <div id="product-panels"></div>
                 </div>
 
                 <aside class="summary" aria-label="Your blend so far">
@@ -155,13 +69,13 @@
                     <ul class="selected-ingredients" aria-live="polite">
                         <li class="empty-note">No ingredients selected</li>
                     </ul>
-                    <p id="caffeine-row">
+                    <p id="caffeine-row" hidden>
                         <span>Caffeine</span>
                         <span>200 mg</span>
                     </p>
                     <p><span>Products chosen</span> <span id="products-chosen">0 of 0</span></p>
                     <p><span>Total price</span> <span id="total-price">$0.00</span></p>
-                    <a class="submit" href="create-review.html">Continue</a>
+                    <a class="submit is-disabled" href="create-review.html" aria-disabled="true">Continue</a>
                 </aside>
             </div>
 
@@ -184,6 +98,8 @@
         </footer>
         
         <script src="js/jquery-4.0.0.min.js"></script>
+        <script src="js/pocketbase.umd.js"></script>
         <script src="js/scripts.js"></script>
+        <script src="js/create.js"></script>
     </body>
 </html>

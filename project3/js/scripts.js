@@ -128,6 +128,7 @@ $(function () {
     });
 
 
+    if (!$('.product-tabs').data('dynamic')) {
     // <><><> product selection on the Products page <><><>
     // Stores one selected product for each ingredient.
     var selectedProducts = {};
@@ -444,6 +445,7 @@ $(function () {
                 .addClass('is-disabled')
                 .attr('aria-disabled', 'true');
         }
+    }
     }
 
     // <><><> login/sign-up <><><>
