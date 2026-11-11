@@ -469,12 +469,15 @@ $(function () {
 
         var $form = $('<form class="login-form">');
 
-        // username
+        // email
         var $username = $('<div class="form-text">').append(
-            $('<label>').attr('for', 'login-username').text('Username'),
+            $('<label>').attr('for', 'login-email').text('Email'),
             $('<input>').attr({
-                id: 'login-username',
-                type: 'text'
+                id: 'login-email',
+                name: 'email',
+                type: 'email',
+                autocomplete: 'username',
+                required: true
             })
         );
         // password
@@ -482,7 +485,10 @@ $(function () {
             $('<label>').attr('for', 'login-password').text('Password'),
             $('<input>').attr({
                 id: 'login-password',
-                type: 'password'
+                name: 'password',
+                type: 'password',
+                autocomplete: 'current-password',
+                required: true
             })
         );
         // login button
@@ -511,55 +517,6 @@ $(function () {
         });
 
 
-        // check the login form
-        $form.on('submit', function(event) {
-            event.preventDefault();
-
-            var username = $('#login-username').val();
-            var password = $('#login-password').val();
-
-            // remove old error messages
-            $('.field-error').remove();
-
-            // check username
-            if (username === '') {
-                $('#login-username').after(
-                    $('<p class="field-error">').text('Please enter a username.')
-                );
-                return;
-            }
-            // check password
-            if (password === '') {
-                $('#login-password').after(
-                    $('<p class="field-error">').text('Please enter a password.')
-                );
-                return;
-            }
-
-            // password needs at least 6 characters
-            if (password.length < 6) {
-                $('#login-password').after(
-                    $('<p class="field-error">')
-                        .text('Password must be at least 6 characters.')
-                );
-                return;
-            }
-
-            // login was successful
-            $form.replaceWith(
-                $('<div class="login-success">').append(
-                    $('<p>').text('Welcome back, ' + username + '!'),
-                    $('<button class="submit modal-close">')
-                        .attr('type', 'button')
-                        .text('Done')
-                )
-            );
-
-            // close the modal when Done is clicked
-            $('.modal-close').on('click', function() {
-                $('#login-overlay').remove();
-            });
-        });
     });
     // sign up modal
 

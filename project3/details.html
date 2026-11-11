@@ -11,7 +11,13 @@
     <body>
         
         <header>
-            <div class="logo">YNQ</div>
+            <div class="header-branding">
+                <div class="logo">YNQ</div>
+                <div class="auth-header" hidden>
+                    <p id="auth-account-status" role="status" hidden></p>
+                    <button id="logout-button" type="button" hidden>Log out</button>
+                </div>
+            </div>
             <nav aria-label="Main navigation">
                 <a href="home.html">Home</a>
                 <a href="list.html">Products</a>
@@ -112,5 +118,6 @@
         <script src="js/jquery-4.0.0.min.js"></script>
         <script src="js/pocketbase.umd.js"></script>
         <script src="js/details.js"></script>
+        <script src="js/auth.js"></script>
     </body>
 </html>

@@ -91,7 +91,14 @@ header .logo {
     font-weight: 700;
     font-size: 1.25rem;
     letter-spacing: 0.02em;
-    margin-right: auto;
+    margin-right: 0;
+}
+
+.header-branding {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 0 0 auto;
 }
 
 header nav {
@@ -263,6 +270,59 @@ main {
 .text-link:hover,
 .text-link:focus-visible {
     text-decoration-color: var(--ink);
+}
+
+#logout-button {
+    border: 0;
+    border-left: 1px solid var(--border);
+    border-radius: 0;
+    padding: 0.15rem 0 0.15rem 0.65rem;
+    background: transparent;
+    color: var(--ink-soft);
+    font: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.auth-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex: 0 0 auto;
+    padding: 0.35rem 0.65rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+}
+
+#auth-account-status {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+#auth-account-status::before {
+    display: inline-block;
+    width: 0.45rem;
+    height: 0.45rem;
+    margin-right: 0.4rem;
+    border-radius: 50%;
+    background: #5b8c2a;
+    content: "";
+    vertical-align: 0.05rem;
+}
+
+#logout-button {
+    padding-left: 0.6rem;
+}
+
+#logout-button:hover,
+#logout-button:focus-visible {
+    background: transparent;
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }
 
 /* buttons */

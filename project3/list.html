@@ -12,7 +12,13 @@
     <body>
         
         <header>
-            <div class="logo">YNQ</div>
+            <div class="header-branding">
+                <div class="logo">YNQ</div>
+                <div class="auth-header" hidden>
+                    <p id="auth-account-status" role="status" hidden></p>
+                    <button id="logout-button" type="button" hidden>Log out</button>
+                </div>
+            </div>
             <form class="site-search" action="list.html" method="get">
                 <label class="visually-hidden" for="site-search-input">Search ingredients</label>
                 <input id="site-search-input" type="search" name="q" placeholder="Search ingredients (try caffeine)" required>
@@ -67,6 +73,7 @@
 
         <script src="js/jquery-4.0.0.min.js"></script>
         <script src="js/pocketbase.umd.js"></script>
+        <script src="js/auth.js"></script>
         <script src="js/list.js"></script>
     </body>
 </html>
