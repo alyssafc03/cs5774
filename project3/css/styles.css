@@ -651,6 +651,7 @@ button.x:focus-visible {
 
 #status-bar a {
   color: var(--ink-faint);
+  padding: 0.25rem;
 }
 
 #status-bar a[aria-current="step"] {
