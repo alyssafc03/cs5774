@@ -1,7 +1,9 @@
 const pb = new PocketBase("http://127.0.0.1:8090");
+let blendToShow;
 
 $(document).ready(function() {
     loadBlend();
+    pb.authStore.onChange(updateDeleteButton);
 
     $('#details button.x').on('click', function() {
         if (document.referrer.indexOf(window.location.origin) === 0) {
@@ -37,7 +39,41 @@ $(document).ready(function() {
     $('.comment-button').on('click', function() {
         $('#comment').trigger('focus');
     });
+
+    $('#delete-blend-button').on('click', async function() {
+        if (!blendToShow || !canDeleteBlend()) {
+            return;
+        }
+
+        if (!window.confirm('Are you sure you want to delete "' + blendToShow.title + '"?')) {
+            return;
+        }
+
+        const $button = $(this).prop('disabled', true);
+        $('#delete-blend-error').prop('hidden', true).text('');
+
+        try {
+            await pb.collection('blends').delete(blendToShow.id);
+            window.location.href = 'list.html';
+        } catch (error) {
+            console.error('Could not delete blend:', error);
+            $('#delete-blend-error')
+                .text('Could not delete this blend. PocketBase may not allow your account to delete it.')
+                .prop('hidden', false);
+            $button.prop('disabled', false);
+        }
+    });
 });
+
+function canDeleteBlend() {
+    const user = pb.authStore.model;
+    return pb.authStore.isValid && user && blendToShow.author &&
+        [user.username, user.email].includes(blendToShow.author);
+}
+
+function updateDeleteButton() {
+    $('#delete-blend-button').prop('hidden', !blendToShow || !canDeleteBlend());
+}
 
 async function loadBlend() {
     const blendId = new URLSearchParams(window.location.search).get('blend');
@@ -48,9 +84,10 @@ async function loadBlend() {
     }
 
     try {
-        const blend = await pb.collection('blends').getOne(blendId, {
+        blendToShow = await pb.collection('blends').getOne(blendId, {
             expand: 'products'
         });
+        const blend = blendToShow;
 
         document.title = 'YNQ - ' + blend.title;
         $('#breadcrumb-title').attr('href', window.location.href)
@@ -91,6 +128,7 @@ async function loadBlend() {
         } else {
             $cover.prop('hidden', true);
         }
+        updateDeleteButton();
     } catch (err) {
         if (err.status === 404) {
             showBlendMissing();

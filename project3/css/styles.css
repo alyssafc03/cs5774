@@ -582,16 +582,38 @@ button.x:focus-visible {
   color: var(--ink);
 }
 
-#ingredients p,
+#ingredients {
+  margin-bottom: 0.5rem;
+}
+
+#blend-ingredients {
+  margin-top: -0.5rem;
+  color: #4a4a4a;
+}
+
+#blend-flavor {
+  color: #4a4a4a;
+}
+
+#blend-products-section > p {
+  margin-bottom: 0.15rem;
+}
+
+#blend-products {
+  color: #4a4a4a;
+}
+
 #nutrition p {
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.15rem;
+  margin-top: 1rem;
 }
 
 #nutrition ul {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 0.35rem 1rem;
+  gap: 0.1rem 1rem;
   max-width: 20rem;
+  color: #4a4a4a;
 }
 
 #nutrition li {
@@ -641,6 +663,28 @@ button.x:focus-visible {
   cursor: pointer;
 }
 
+#actions .delete-button {
+  display: inline-flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem;
+  border: none;
+  background: transparent;
+  color: #000000;
+  cursor: pointer;
+}
+
+#actions .delete-button:hover,
+#actions .like-button:hover {
+  color: #b42318;
+}
+
+#actions .delete-button[hidden] {
+  display: none;
+}
+
 #actions .comment-button svg {
   width: 1.65rem;
   height: 1.65rem;
@@ -656,17 +700,34 @@ button.x:focus-visible {
   stroke: none;
 }
 
+#actions .delete-button svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 #actions .like-button:hover,
 #actions .like-button:focus-visible,
 #actions .comment-button:hover,
-#actions .comment-button:focus-visible {
+#actions .comment-button:focus-visible,
+#actions .delete-button:hover,
+#actions .delete-button:focus-visible {
   border: none;
 }
 
 #actions .like-button:focus-visible,
-#actions .comment-button:focus-visible {
+#actions .comment-button:focus-visible,
+#actions .delete-button:focus-visible {
   outline: 2px solid var(--ink);
   outline-offset: 2px;
+}
+
+#delete-blend-error {
+  color: #b42318;
 }
 
 .like-button svg {
