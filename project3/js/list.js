@@ -42,19 +42,23 @@ function applyBlendSearch() {
 }
 
 function createCard(blend) {
-    var div = $('<div class="card" data-ingredients="' + blend.ingredients +
-                                '" data-calories="'    + blend.calories    +
-                                '" data-caffeine="'    + blend.caffeine    +
-                                '" data-carbs="'       + blend.carbs       +
-                                '"></div>');
+    var div = $('<div class="card">').attr({
+        'data-ingredients': blend.ingredients,
+        'data-calories': blend.calories,
+        'data-caffeine': blend.caffeine,
+        'data-carbs': blend.carbs
+    });
     
-    var link = $('<a href="details.html?blend=' + blend.id + '"></a>').appendTo(div);
-    $('<img class="card-img" alt="blend cover image">')
-        .attr('src', pb.files.getURL(blend, blend.coverImage))
-        .appendTo(link);
-    $('<p class="card-title">' + blend.title + '</p>').appendTo(link);
+    var link = $('<a>').attr('href', 'details.html?blend=' + encodeURIComponent(blend.id))
+        .appendTo(div);
+    if (blend.coverImage) {
+        $('<img class="card-img" alt="blend cover image">')
+            .attr('src', pb.files.getURL(blend, blend.coverImage))
+            .appendTo(link);
+    }
+    $('<p class="card-title">').text(blend.title).appendTo(link);
     
-    $('<a href="#" class="card-author">' + blend.author + '</a>').appendTo(div);
+    $('<a href="#" class="card-author">').text(blend.author).appendTo(div);
     
     return div;
 }

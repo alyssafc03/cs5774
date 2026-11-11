@@ -42,26 +42,24 @@
                 <form id="blend-details-form">
                     <div class="form-text">
                         <label for="blend-name">Name your blend</label>
-                        <input type="text" id="blend-name" name="blend-name" placeholder="Name your blend">
+                        <input type="text" id="blend-name" name="blend-name" placeholder="Name your blend" required>
                     </div>
                     <div class="form-text">
                         <label for="blend-flavor">Choose your flavor</label>
-                        <select id="blend-flavor" name="blend-flavor">
+                        <select id="blend-flavor" name="blend-flavor" required>
                             <option value="">Select</option>
                             <option value="fruit-punch">Fruit punch</option>
                             <option value="blue-raspberry">Blue raspberry</option>
+                            <option value="strawberry">Strawberry</option>
+                            <option value="cherry-cola">Cherry cola</option>
                             <option value="unflavored">Unflavored</option>
                         </select>
                     </div>
                     <div class="form-text">
                         <label for="blend-cover">Choose your cover image</label>
-                        <select id="blend-cover" name="blend-cover">
-                            <option value="">Select</option>
-                            <option value="cover-1">Cover 1</option>
-                            <option value="cover-2">Cover 2</option>
-                            <option value="upload">Upload my own</option>
-                        </select>
+                        <input type="file" id="blend-cover" name="blend-cover" accept="image/*">
                     </div>
+                    <p id="review-save-error" role="alert" hidden></p>
                 </form>
 
                 <aside class="summary" aria-label="Your blend so far">
@@ -77,7 +75,9 @@
                     </p>
                     <p><span>Products chosen</span> <span id="review-products-chosen">0 of 0</span></p>
                     <p><span>Total price</span> <span id="review-total-price">$0.00</span></p>
-                    <a class="submit" href="list.html">Continue</a>
+                    <button class="submit" id="save-blend-button" type="submit" form="blend-details-form" disabled>
+                        Save blend
+                    </button>
                 </aside>
             </div>
 

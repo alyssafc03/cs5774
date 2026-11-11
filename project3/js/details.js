@@ -48,7 +48,9 @@ async function loadBlend() {
     }
 
     try {
-        const blend = await pb.collection('blends').getOne(blendId);
+        const blend = await pb.collection('blends').getOne(blendId, {
+            expand: 'products'
+        });
 
         document.title = 'YNQ - ' + blend.title;
         $('#breadcrumb-title').attr('href', window.location.href)
@@ -56,6 +58,26 @@ async function loadBlend() {
         $('#blend-title').text(blend.title);
         $('#username').text(blend.author);
         $('#blend-ingredients').text(blend.ingredients);
+        if (blend.flavor) {
+            $('#blend-flavor').text(blend.flavor);
+            $('#blend-flavor-row').prop('hidden', false);
+        }
+
+        const expandedProducts = blend.expand && blend.expand.products;
+        const selectedProducts = Array.isArray(expandedProducts)
+            ? expandedProducts
+            : expandedProducts ? [expandedProducts] : [];
+        if (selectedProducts.length > 0) {
+            const $productList = $('#blend-products').empty();
+            selectedProducts.forEach(function(product) {
+                const $item = $('<li>').text(product.name);
+                if (product.brand) {
+                    $item.append(document.createTextNode(': '), $('<em>').text(product.brand));
+                }
+                $productList.append($item);
+            });
+            $('#blend-products-section').prop('hidden', false);
+        }
         $('#nutrition-calories').text(formatNutrition(blend.calories));
         $('#nutrition-caffeine').text(formatNutrition(blend.caffeine, 'mg'));
         $('#nutrition-carbs').text(formatNutrition(blend.carbs, 'g'));

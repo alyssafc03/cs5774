@@ -1145,6 +1145,13 @@ a.submit:focus-visible {
   color: var(--accent-ink);
 }
 
+button.submit:disabled,
+button.submit:disabled:hover {
+  background: var(--surface-strong);
+  color: var(--ink-soft);
+  cursor: not-allowed;
+}
+
 /* -------------- responsive -------------- */
 
 @media (max-width: 768px) {
